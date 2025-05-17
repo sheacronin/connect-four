@@ -34,7 +34,7 @@ describe ConnectFour do
       expect(game.game_over?).to be(false)
     end
 
-    it 'returns true when 4 tokens are in a horizontal row' do
+    it 'returns true when there are 4 tokens in a row horizontally' do
       game.place_token(0, 0)
       game.place_token(0, 1)
       game.place_token(0, 2)
@@ -42,11 +42,19 @@ describe ConnectFour do
       expect(game.game_over?).to be(true)
     end
 
-    it 'returns true when 4 tokens are in a vertical row' do
+    it 'returns true when there are 4 tokens in a row vertically' do
       game.place_token(2, 5)
       game.place_token(3, 5)
       game.place_token(4, 5)
       game.place_token(5, 5)
+      expect(game.game_over?).to be(true)
+    end
+
+    it 'returns true when there are 4 tokens in a row diagonally' do
+      game.place_token(1, 0)
+      game.place_token(2, 1)
+      game.place_token(3, 2)
+      game.place_token(4, 3)
       expect(game.game_over?).to be(true)
     end
   end
