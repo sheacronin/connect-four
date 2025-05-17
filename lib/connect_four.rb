@@ -2,17 +2,21 @@
 
 # Grid to place tokens on
 class ConnectFour
-  attr_reader :grid
+  attr_reader :grid, :row_length, :col_length
 
-  def initialize
-    @grid = [
-      [nil, nil, nil, nil, nil, nil, nil],
-      [nil, nil, nil, nil, nil, nil, nil],
-      [nil, nil, nil, nil, nil, nil, nil],
-      [nil, nil, nil, nil, nil, nil, nil],
-      [nil, nil, nil, nil, nil, nil, nil],
-      [nil, nil, nil, nil, nil, nil, nil]
-    ]
+  def initialize(row_length = 6, col_length = 7)
+    @row_length = row_length
+    @col_length = col_length
+    @grid = Array.new(row_length) { Array.new(col_length, nil) }
+    # Looks like:
+    # [
+    #   [nil, nil, nil, nil, nil, nil, nil],
+    #   [nil, nil, nil, nil, nil, nil, nil],
+    #   [nil, nil, nil, nil, nil, nil, nil],
+    #   [nil, nil, nil, nil, nil, nil, nil],
+    #   [nil, nil, nil, nil, nil, nil, nil],
+    #   [nil, nil, nil, nil, nil, nil, nil]
+    # ]
   end
 
   def place_token(row, col)
@@ -36,7 +40,7 @@ class ConnectFour
   end
 
   def vertical_four?
-    cols = Array.new(7) { [] }
+    cols = Array.new(col_length) { [] }
     grid.each do |row|
       row.each_with_index do |space, i|
         cols[i] << space
@@ -49,29 +53,25 @@ class ConnectFour
   def diagonal_four?
     diagonals = []
 
-    (0..(6 + 7 - 2)).each do |row_col_sum|
-      diagonal = []
-      (0...6).each do |row|
-        col = row_col_sum - row
-        diagonal << grid[row][col] if col.between?(0, 6)
-      end
-      diagonals << diagonal
-    end
-
-    (-6..5).each do |row_col_sum|
-      diagonal = []
-      (0...6).each do |row|
-        col = row - row_col_sum
-        diagonal << grid[row][col] if col.between?(0, 6)
-      end
-      diagonals << diagonal
-    end
+    get_diagonals(0..(row_length - 1 + col_length - 1), diagonals)
+    get_diagonals(-(col_length - 1)..(row_length - 1), diagonals)
 
     diagonals.any? { |diagonal| four_in_a_row?(diagonal) }
   end
 
+  def get_diagonals(sum_range, diagonals)
+    sum_range.each do |row_col_sum|
+      diagonal = []
+      (0...row_length).each do |row|
+        col = row - row_col_sum
+        diagonal << grid[row][col] if col.between?(0, col_length - 1)
+      end
+      diagonals << diagonal
+    end
+  end
+
   def four_in_a_row?(line)
-    tokens_with_index = line.each_with_index.reject do |space, i|
+    tokens_with_index = line.each_with_index.reject do |space, _i|
       space.nil?
     end
 
