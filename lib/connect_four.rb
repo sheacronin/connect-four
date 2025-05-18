@@ -24,7 +24,7 @@ class ConnectFour
   end
 
   def game_over?
-    return true if horizontal_four? || vertical_four? || diagonal_four?
+    return true if lines.any? { |line| four_in_a_row?(line) }
 
     false
   end
@@ -35,31 +35,30 @@ class ConnectFour
 
   private
 
-  def horizontal_four?
-    grid.any? { |row| four_in_a_row?(row) }
+  def lines
+    rows + cols + diagonals
   end
 
-  def vertical_four?
+  def rows
+    grid
+  end
+
+  def cols
     cols = Array.new(col_length) { [] }
-    grid.each do |row|
+    rows.each do |row|
       row.each_with_index do |space, i|
         cols[i] << space
       end
     end
-
-    cols.any? { |col| four_in_a_row?(col) }
+    cols
   end
 
-  def diagonal_four?
+  def diagonals
+    get_diagonals(0..(row_length - 1 + col_length - 1)) + get_diagonals(-(col_length - 1)..(row_length - 1))
+  end
+
+  def get_diagonals(sum_range)
     diagonals = []
-
-    get_diagonals(0..(row_length - 1 + col_length - 1), diagonals)
-    get_diagonals(-(col_length - 1)..(row_length - 1), diagonals)
-
-    diagonals.any? { |diagonal| four_in_a_row?(diagonal) }
-  end
-
-  def get_diagonals(sum_range, diagonals)
     sum_range.each do |row_col_sum|
       diagonal = []
       (0...row_length).each do |row|
@@ -68,6 +67,7 @@ class ConnectFour
       end
       diagonals << diagonal
     end
+    diagonals
   end
 
   def four_in_a_row?(line)
