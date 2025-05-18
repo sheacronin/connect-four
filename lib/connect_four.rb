@@ -71,24 +71,15 @@ class ConnectFour
   end
 
   def four_in_a_row?(line)
-    tokens_with_index = line.each_with_index.reject do |space, _i|
-      space.nil?
-    end
-
-    current_index = nil
-    tokens_in_a_row = 1
-
-    tokens_with_index.each do |_token, i|
-      if current_index == i - 1
-        tokens_in_a_row += 1
+    counter = 0
+    line.each do |space|
+      if space.nil?
+        counter = 0
       else
-        tokens_in_a_row = 1
+        counter += 1
+        return true if counter == 4
       end
-      return true if tokens_in_a_row == 4
-
-      current_index = i
     end
-
     false
   end
 end
