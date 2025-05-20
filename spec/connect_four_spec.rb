@@ -1,60 +1,20 @@
 # frozen_string_literal: true
 
 require_relative '../lib/connect_four'
+require_relative '../lib/board'
 
 describe ConnectFour do
-  subject(:game) { described_class.new }
-
-  it 'initializes with a 7x6 grid' do
-    expect(game.grid).to eq([
-                              [nil, nil, nil, nil, nil, nil, nil],
-                              [nil, nil, nil, nil, nil, nil, nil],
-                              [nil, nil, nil, nil, nil, nil, nil],
-                              [nil, nil, nil, nil, nil, nil, nil],
-                              [nil, nil, nil, nil, nil, nil, nil],
-                              [nil, nil, nil, nil, nil, nil, nil]
-                            ])
-  end
-
-  it 'places a token in a space' do
-    game.place_token(2, 2)
-    expect(game.grid).to eq([
-                              [nil, nil, nil, nil, nil, nil, nil],
-                              [nil, nil, nil, nil, nil, nil, nil],
-                              [nil, nil, '◍', nil, nil, nil, nil],
-                              [nil, nil, nil, nil, nil, nil, nil],
-                              [nil, nil, nil, nil, nil, nil, nil],
-                              [nil, nil, nil, nil, nil, nil, nil]
-                            ])
-  end
+  let(:board) { instance_double(Board) }
+  subject(:game) { described_class.new(board) }
 
   describe '#game_over?' do
     it 'returns false when there are not 4 tokens in a row' do
-      game.place_token(0, 0)
+      allow(board).to receive(:any_four_in_a_row?).and_return(false)
       expect(game.game_over?).to be(false)
     end
 
-    it 'returns true when there are 4 tokens in a row horizontally' do
-      game.place_token(0, 0)
-      game.place_token(0, 1)
-      game.place_token(0, 2)
-      game.place_token(0, 3)
-      expect(game.game_over?).to be(true)
-    end
-
-    it 'returns true when there are 4 tokens in a row vertically' do
-      game.place_token(2, 5)
-      game.place_token(3, 5)
-      game.place_token(4, 5)
-      game.place_token(5, 5)
-      expect(game.game_over?).to be(true)
-    end
-
-    it 'returns true when there are 4 tokens in a row diagonally' do
-      game.place_token(1, 0)
-      game.place_token(2, 1)
-      game.place_token(3, 2)
-      game.place_token(4, 3)
+    it 'returns true when there are 4 tokens in a row' do
+      allow(board).to receive(:any_four_in_a_row?).and_return(true)
       expect(game.game_over?).to be(true)
     end
   end
