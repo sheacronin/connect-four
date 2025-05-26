@@ -9,6 +9,6 @@ class ConnectFour
   end
 
   def game_over?
-    @board.any_four_in_a_row?
+    @board.any_winning_sequence?
   end
 end

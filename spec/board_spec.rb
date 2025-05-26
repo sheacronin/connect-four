@@ -30,10 +30,10 @@ describe Board do
     end
   end
 
-  describe '#any_four_in_a_row?' do
+  describe '#any_winning_sequence?' do
     it 'returns false when there are not 4 tokens in a row' do
       board.place_token(0, 0)
-      expect(board.any_four_in_a_row?).to be(false)
+      expect(board.any_winning_sequence?).to be(false)
     end
 
     it 'returns true when there are 4 tokens in a row horizontally' do
@@ -41,7 +41,7 @@ describe Board do
       board.place_token(0, 1)
       board.place_token(0, 2)
       board.place_token(0, 3)
-      expect(board.any_four_in_a_row?).to be(true)
+      expect(board.any_winning_sequence?).to be(true)
     end
 
     it 'returns true when there are 4 tokens in a row vertically' do
@@ -49,7 +49,7 @@ describe Board do
       board.place_token(3, 5)
       board.place_token(4, 5)
       board.place_token(5, 5)
-      expect(board.any_four_in_a_row?).to be(true)
+      expect(board.any_winning_sequence?).to be(true)
     end
 
     it 'returns true when there are 4 tokens in a row diagonally' do
@@ -57,7 +57,7 @@ describe Board do
       board.place_token(2, 1)
       board.place_token(3, 2)
       board.place_token(4, 3)
-      expect(board.any_four_in_a_row?).to be(true)
+      expect(board.any_winning_sequence?).to be(true)
     end
   end
 end

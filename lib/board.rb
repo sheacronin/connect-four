@@ -2,9 +2,10 @@
 
 # Board to place tokens on
 class Board
-  def initialize(row_length = 6, col_length = 7)
+  def initialize(row_length = 6, col_length = 7, winning_count = 4)
     @row_length = row_length
     @col_length = col_length
+    @winning_count = winning_count
     @grid = Array.new(row_length) { Array.new(col_length, nil) }
   end
 
@@ -16,20 +17,20 @@ class Board
     @grid[row][col] = '◍'
   end
 
-  def any_four_in_a_row?
-    lines.any? { |line| four_in_a_row?(line) }
+  def any_winning_sequence?
+    lines.any? { |line| winning_sequence?(line) }
   end
 
   private
 
-  def four_in_a_row?(line)
+  def winning_sequence?(line)
     counter = 0
     line.each do |space|
       if space.nil?
         counter = 0
       else
         counter += 1
-        return true if counter == 4
+        return true if counter == @winning_count
       end
     end
     false
