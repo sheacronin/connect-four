@@ -17,46 +17,90 @@ describe Board do
   end
 
   describe '#place_token' do
-    it 'places a token in a space' do
-      board.place_token(2, 2)
-      expect(board.instance_variable_get(:@grid)).to eq([
-                                                          [nil, nil, nil, nil, nil, nil, nil],
-                                                          [nil, nil, nil, nil, nil, nil, nil],
-                                                          [nil, nil, '◍', nil, nil, nil, nil],
-                                                          [nil, nil, nil, nil, nil, nil, nil],
-                                                          [nil, nil, nil, nil, nil, nil, nil],
-                                                          [nil, nil, nil, nil, nil, nil, nil]
-                                                        ])
+    context 'when the column is empty' do
+      it 'places the token at the bottom' do
+        board.place_token(3)
+        expect(board.instance_variable_get(:@grid)).to eq([
+                                                            [nil, nil, nil, nil, nil, nil, nil],
+                                                            [nil, nil, nil, nil, nil, nil, nil],
+                                                            [nil, nil, nil, nil, nil, nil, nil],
+                                                            [nil, nil, nil, nil, nil, nil, nil],
+                                                            [nil, nil, nil, nil, nil, nil, nil],
+                                                            [nil, nil, nil, '◍', nil, nil, nil]
+                                                          ])
+      end
+    end
+
+    context 'when other tokens are in the column' do
+      before do
+        board.instance_variable_set(:@grid, [
+                                      [nil, nil, nil, nil, nil, nil, nil],
+                                      [nil, nil, nil, nil, nil, nil, nil],
+                                      [nil, nil, nil, nil, nil, nil, nil],
+                                      [nil, nil, nil, nil, '◍', nil, nil],
+                                      [nil, nil, nil, nil, '◍', nil, nil],
+                                      [nil, nil, nil, nil, '◍', nil, nil]
+                                    ])
+      end
+
+      it 'places the token above the highest token in the column' do
+        board.place_token(4)
+        expect(board.instance_variable_get(:@grid)).to eq([
+                                                            [nil, nil, nil, nil, nil, nil,
+                                                             nil],
+                                                            [nil, nil, nil, nil, nil, nil,
+                                                             nil],
+                                                            [nil, nil, nil, nil, '◍', nil,
+                                                             nil],
+                                                            [nil, nil, nil, nil, '◍', nil,
+                                                             nil],
+                                                            [nil, nil, nil, nil, '◍', nil,
+                                                             nil],
+                                                            [nil, nil, nil, nil, '◍', nil,
+                                                             nil]
+                                                          ])
+      end
     end
   end
 
   describe '#any_winning_sequence?' do
     it 'returns false when there is not a winning sequence' do
-      board.place_token(0, 0)
       expect(board.any_winning_sequence?).to be(false)
     end
 
     it 'returns true when there is a winnning sequence horizontally' do
-      board.place_token(0, 0)
-      board.place_token(0, 1)
-      board.place_token(0, 2)
-      board.place_token(0, 3)
+      board.instance_variable_set(:@grid, [
+                                    [nil, nil, nil, nil, nil, nil, nil],
+                                    [nil, nil, nil, '◍', '◍', '◍', '◍'],
+                                    [nil, nil, nil, nil, nil, nil, nil],
+                                    [nil, nil, nil, nil, nil, nil, nil],
+                                    [nil, nil, nil, nil, nil, nil, nil],
+                                    [nil, nil, nil, nil, nil, nil, nil]
+                                  ])
       expect(board.any_winning_sequence?).to be(true)
     end
 
     it 'returns true when there is a winnning sequence vertically' do
-      board.place_token(2, 5)
-      board.place_token(3, 5)
-      board.place_token(4, 5)
-      board.place_token(5, 5)
+      board.instance_variable_set(:@grid, [
+                                    [nil, nil, nil, nil, nil, nil, nil],
+                                    [nil, nil, nil, nil, nil, nil, nil],
+                                    ['◍', nil, nil, nil, nil, nil, nil],
+                                    ['◍', nil, nil, nil, nil, nil, nil],
+                                    ['◍', nil, nil, nil, nil, nil, nil],
+                                    ['◍', nil, nil, nil, nil, nil, nil]
+                                  ])
       expect(board.any_winning_sequence?).to be(true)
     end
 
     it 'returns true when there is a winnning sequence diagonally' do
-      board.place_token(1, 0)
-      board.place_token(2, 1)
-      board.place_token(3, 2)
-      board.place_token(4, 3)
+      board.instance_variable_set(:@grid, [
+                                    [nil, nil, nil, nil, nil, nil, nil],
+                                    [nil, nil, nil, '◍', nil, nil, nil],
+                                    [nil, nil, '◍', nil, nil, nil, nil],
+                                    [nil, '◍', nil, nil, nil, nil, nil],
+                                    ['◍', nil, nil, nil, nil, nil, nil],
+                                    [nil, nil, nil, nil, nil, nil, nil]
+                                  ])
       expect(board.any_winning_sequence?).to be(true)
     end
   end

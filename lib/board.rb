@@ -13,8 +13,13 @@ class Board
     @grid.each { |row| p row }
   end
 
-  def place_token(row, col)
-    @grid[row][col] = '◍'
+  def place_token(col)
+    (@row_length - 1).downto(0) do |row|
+      if @grid[row][col].nil?
+        @grid[row][col] = '◍'
+        break
+      end
+    end
   end
 
   def any_winning_sequence?
@@ -63,7 +68,7 @@ class Board
     sum_range.each do |row_col_sum|
       diagonal = []
       (0...@row_length).each do |row|
-        col = row - row_col_sum
+        col = (row - row_col_sum).abs
         diagonal << @grid[row][col] if col.between?(0, @col_length - 1)
       end
       diagonals << diagonal

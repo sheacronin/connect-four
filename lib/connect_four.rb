@@ -19,7 +19,7 @@ class ConnectFour
   # if yes, handle game over
   def play
     column = $stdin.gets.chomp.to_i
-    @board.place_token(0, column)
+    @board.place_token(column)
     @board.show_grid
     game_over?
   end

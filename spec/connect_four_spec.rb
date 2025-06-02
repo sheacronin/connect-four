@@ -26,7 +26,7 @@ describe ConnectFour do
     end
 
     it 'places a token on the board' do
-      expect(board).to receive(:place_token).with(0, 1)
+      expect(board).to receive(:place_token).with(1)
       game.play
     end
 
