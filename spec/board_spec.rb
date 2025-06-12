@@ -61,6 +61,18 @@ describe Board do
                                                           ])
       end
     end
+
+    it 'places the inputted token' do
+      board.place_token(3, 'X')
+      expect(board.instance_variable_get(:@grid)).to eq([
+                                                          [nil, nil, nil, nil, nil, nil, nil],
+                                                          [nil, nil, nil, nil, nil, nil, nil],
+                                                          [nil, nil, nil, nil, nil, nil, nil],
+                                                          [nil, nil, nil, nil, nil, nil, nil],
+                                                          [nil, nil, nil, nil, nil, nil, nil],
+                                                          [nil, nil, nil, 'X', nil, nil, nil]
+                                                        ])
+    end
   end
 
   describe '#any_winning_sequence?' do
@@ -102,6 +114,20 @@ describe Board do
                                     [nil, nil, nil, nil, nil, nil, nil]
                                   ])
       expect(board.any_winning_sequence?).to be(true)
+    end
+
+    context 'when there only are different tokens in a winning sequence' do
+      it 'returns false' do
+        board.instance_variable_set(:@grid, [
+                                      [nil, nil, nil, nil, nil, nil, nil],
+                                      [nil, nil, nil, '◍', nil, nil, nil],
+                                      [nil, nil, 'X', nil, nil, nil, nil],
+                                      [nil, '◍', nil, nil, nil, nil, nil],
+                                      ['◍', nil, nil, nil, nil, nil, nil],
+                                      [nil, nil, nil, nil, nil, nil, nil]
+                                    ])
+        expect(board.any_winning_sequence?).to be(false)
+      end
     end
   end
 end

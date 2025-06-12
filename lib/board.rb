@@ -13,10 +13,10 @@ class Board
     @grid.each { |row| p row }
   end
 
-  def place_token(col)
+  def place_token(col, token = '◍')
     (@row_length - 1).downto(0) do |row|
       if @grid[row][col].nil?
-        @grid[row][col] = '◍'
+        @grid[row][col] = token
         break
       end
     end
@@ -30,13 +30,12 @@ class Board
 
   def winning_sequence?(line)
     counter = 0
+    counting_token = nil
     line.each do |space|
-      if space.nil?
-        counter = 0
-      else
-        counter += 1
-        return true if counter == @winning_count
-      end
+      counter = 0 if space != counting_token || space.nil?
+      counting_token = space
+      counter += 1
+      return true if counter == @winning_count
     end
     false
   end
