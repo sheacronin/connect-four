@@ -8,4 +8,8 @@ class Player
     @name = name
     @token = token
   end
+
+  def to_s
+    @token
+  end
 end

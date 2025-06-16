@@ -10,7 +10,15 @@ class Board
   end
 
   def show_grid
-    @grid.each { |row| p row }
+    puts row_border
+    rows.each do |row|
+      row_str = '|'
+      row.each do |space|
+        row_str += " #{space || ' '} |"
+      end
+      puts row_str
+      puts row_border
+    end
   end
 
   def place_token(col, token = '◍')
@@ -81,5 +89,9 @@ class Board
 
   def descending_diags_sum_range
     -(@col_length - 1)..(@row_length - 1)
+  end
+
+  def row_border
+    '+---+---+---+---+---+---+---+'
   end
 end

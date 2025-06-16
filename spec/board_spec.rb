@@ -16,6 +16,37 @@ describe Board do
                                                       ])
   end
 
+  describe '#show_grid' do
+    it 'displays the grid properly' do
+      board.instance_variable_set(:@grid, [
+                                    [nil, nil, nil, nil, nil, nil, nil],
+                                    [nil, nil, nil, nil, nil, nil, nil],
+                                    ['Z', nil, nil, nil, nil, nil, nil],
+                                    ['X', 'Z', nil, nil, nil, nil, nil],
+                                    ['X', 'X', nil, nil, nil, nil, nil],
+                                    ['X', 'Z', nil, nil, nil, nil, 'Z']
+                                  ])
+
+      expect { board.show_grid }.to output(
+        <<~TEXT
+          +---+---+---+---+---+---+---+
+          |   |   |   |   |   |   |   |
+          +---+---+---+---+---+---+---+
+          |   |   |   |   |   |   |   |
+          +---+---+---+---+---+---+---+
+          | Z |   |   |   |   |   |   |
+          +---+---+---+---+---+---+---+
+          | X | Z |   |   |   |   |   |
+          +---+---+---+---+---+---+---+
+          | X | X |   |   |   |   |   |
+          +---+---+---+---+---+---+---+
+          | X | Z |   |   |   |   | Z |
+          +---+---+---+---+---+---+---+
+        TEXT
+      ).to_stdout
+    end
+  end
+
   describe '#place_token' do
     context 'when the column is empty' do
       it 'places the token at the bottom' do
