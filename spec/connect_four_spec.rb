@@ -24,7 +24,7 @@ describe ConnectFour do
       allow($stdin).to receive(:gets).and_return('1')
       allow(board).to receive(:place_token)
       allow(board).to receive(:show_grid)
-      allow(board).to receive(:any_winning_sequence?).and_return(false)
+      allow(board).to receive(:any_winning_sequence?).and_return(false, true)
     end
 
     it 'changes the round' do
@@ -37,7 +37,17 @@ describe ConnectFour do
     end
 
     it 'checks if the game is over' do
-      expect(game).to receive(:game_over?)
+      expect(game).to receive(:game_over?).and_return(false, true)
+      game.play
+    end
+
+    it 'continues play when game not over' do
+      expect(game).to receive(:play).once
+      game.play
+    end
+
+    it 'ends game when game is over' do
+      expect(game).to receive(:end_game).once
       game.play
     end
   end

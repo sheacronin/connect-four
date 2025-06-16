@@ -17,15 +17,8 @@ class ConnectFour
     players[index]
   end
 
-  # Play game
-  # who's turn is it?
-  # they select a space to place a token (change this later to drop)
-  # check for game over?
-  # if not, change whose turn and continue play
-  # if yes, handle game over
   def play
-    puts "#{active_player.name}, it is your turn."
-    puts 'In which column would you like to place your token?'
+    prompt_token
     column = $stdin.gets.chomp.to_i
     @board.place_token(column, active_player)
 
@@ -38,11 +31,19 @@ class ConnectFour
     play
   end
 
-  def end_game
-    puts 'GAME OVER, thanks for playing!'
-  end
-
   def game_over?
     @board.any_winning_sequence?
+  end
+
+  private
+
+  def prompt_token
+    puts "#{active_player.name}, it is your turn."
+    puts 'In which column would you like to place your token?'
+  end
+
+  def end_game
+    puts 'GAME OVER, thanks for playing!'
+    puts "#{active_player.name} is the winner."
   end
 end
