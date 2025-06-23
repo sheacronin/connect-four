@@ -7,11 +7,11 @@ require_relative './game_ui'
 class ConnectFour
   attr_reader :players, :round
 
-  def initialize(players:, board: Board.new)
+  def initialize(players:, board: Board.new, ui: GameUI.new) # rubocop:disable Naming/MethodParameterName
     @players = players
     @board = board
+    @ui = ui
     @round = 1
-    @ui = GameUI.new
   end
 
   def active_player
