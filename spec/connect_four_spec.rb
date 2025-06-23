@@ -6,8 +6,8 @@ require_relative '../lib/player'
 
 describe ConnectFour do
   let(:board) { instance_double(Board) }
-  let(:player1) { instance_double(Player, { name: 'Player1', token: '1' }) }
-  let(:player2) { instance_double(Player, { name: 'Player2', token: '2' }) }
+  let(:player1) { instance_double(Player, { name: 'Player1' }) }
+  let(:player2) { instance_double(Player, { name: 'Player2' }) }
   let(:players) { [player1, player2] }
   subject(:game) { described_class.new(players:, board:) }
 
