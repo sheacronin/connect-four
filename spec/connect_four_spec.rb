@@ -23,7 +23,6 @@ describe ConnectFour do
     before do
       allow($stdin).to receive(:gets).and_return('1')
       allow(board).to receive(:place_token)
-      allow(board).to receive(:show_grid)
       allow(board).to receive(:any_winning_sequence?).and_return(false, true)
     end
 
@@ -43,11 +42,6 @@ describe ConnectFour do
 
     it 'continues play when game not over' do
       expect(game).to receive(:play).once
-      game.play
-    end
-
-    it 'ends game when game is over' do
-      expect(game).to receive(:end_game).once
       game.play
     end
   end

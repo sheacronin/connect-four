@@ -9,18 +9,6 @@ class Board
     @grid = Array.new(row_length) { Array.new(col_length, nil) }
   end
 
-  def show_grid
-    puts row_border
-    rows.each do |row|
-      row_str = '|'
-      row.each do |space|
-        row_str += " #{space || ' '} |"
-      end
-      puts row_str
-      puts row_border
-    end
-  end
-
   def place_token(col, token = '◍')
     (@row_length - 1).downto(0) do |row|
       if @grid[row][col].nil?
@@ -32,6 +20,15 @@ class Board
 
   def any_winning_sequence?
     lines.any? { |line| winning_sequence?(line) }
+  end
+
+  def to_s
+    grid = "#{row_border}\n"
+    rows.each do |row|
+      grid += row_contents(row)
+      grid += "\n#{row_border}\n"
+    end
+    grid
   end
 
   private
@@ -93,5 +90,13 @@ class Board
 
   def row_border
     '+---+---+---+---+---+---+---+'
+  end
+
+  def row_contents(row)
+    contents = '|'
+    row.each do |space|
+      contents += " #{space || ' '} |"
+    end
+    contents
   end
 end

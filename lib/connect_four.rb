@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative './board'
+require_relative './game_ui'
 
 # Game where players try to place four tokens in a row
 class ConnectFour
@@ -10,6 +11,7 @@ class ConnectFour
     @players = players
     @board = board
     @round = 1
+    @ui = GameUI.new
   end
 
   def active_player
@@ -18,14 +20,12 @@ class ConnectFour
   end
 
   def play
-    prompt_token
-    column = $stdin.gets.chomp.to_i
+    column = @ui.prompt_token_placement(active_player.name)
     @board.place_token(column, active_player)
-
     puts "You have placed your token in column #{column}."
-    @board.show_grid
+    @ui.show_board(@board)
 
-    return end_game if game_over?
+    return @ui.end_game(active_player.name) if game_over?
 
     @round += 1
     play
@@ -33,17 +33,5 @@ class ConnectFour
 
   def game_over?
     @board.any_winning_sequence?
-  end
-
-  private
-
-  def prompt_token
-    puts "#{active_player.name}, it is your turn."
-    puts 'In which column would you like to place your token?'
-  end
-
-  def end_game
-    puts 'GAME OVER, thanks for playing!'
-    puts "#{active_player.name} is the winner."
   end
 end

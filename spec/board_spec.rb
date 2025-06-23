@@ -16,8 +16,8 @@ describe Board do
                                                       ])
   end
 
-  describe '#show_grid' do
-    it 'displays the grid properly' do
+  describe '#to_s' do
+    it 'outputs the grid properly' do
       board.instance_variable_set(:@grid, [
                                     [nil, nil, nil, nil, nil, nil, nil],
                                     [nil, nil, nil, nil, nil, nil, nil],
@@ -27,7 +27,7 @@ describe Board do
                                     ['X', 'Z', nil, nil, nil, nil, 'Z']
                                   ])
 
-      expect { board.show_grid }.to output(
+      expect { puts board }.to output(
         <<~TEXT
           +---+---+---+---+---+---+---+
           |   |   |   |   |   |   |   |
