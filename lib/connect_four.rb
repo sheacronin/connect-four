@@ -22,7 +22,7 @@ class ConnectFour
   def play
     column = @ui.prompt_token_placement(active_player.name)
     @board.place_token(column, active_player)
-    puts "You have placed your token in column #{column}."
+    @ui.show_token_placement(column)
     @ui.show_board(@board)
 
     return @ui.end_game(active_player.name) if game_over?

@@ -63,6 +63,13 @@ describe GameUI do
     end
   end
 
+  describe '#show_token_placement' do
+    it 'outputs a confirmation message' do
+      column = 2
+      expect { ui.show_token_placement(column) }.to output("You have placed your token in column 2.\n").to_stdout
+    end
+  end
+
   describe '#end_game' do
     it 'outputs the ending message' do
       winner = 'Tammy'

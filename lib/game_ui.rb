@@ -25,6 +25,10 @@ class GameUI
     prompt_token_placement(name)
   end
 
+  def show_token_placement(col)
+    puts "You have placed your token in column #{col}."
+  end
+
   def end_game(winner)
     puts 'GAME OVER, thanks for playing!'
     puts "#{winner} is the winner."
